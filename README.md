@@ -4,7 +4,7 @@ A new Flutter project. To learn navigation
 
 ### Live Link
 
-(Link)[https://appetize.io/app/kcemct6zm4gucf7cweb3hfedje?device=pixel4&osVersion=11.0&scale=75]
+[Link](https://appetize.io/app/kcemct6zm4gucf7cweb3hfedje?device=pixel4&osVersion=11.0&scale=75)
 
 ## Getting Started
 
