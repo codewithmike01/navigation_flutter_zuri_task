@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512319205381",
+    "project_id": "fluter-user-auth",
+    "storage_bucket": "fluter-user-auth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512319205381:android:b0342c71084f1e6b132c6c",
+        "android_client_info": {
+          "package_name": "com.example.navigation_task_hng"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512319205381-5m7e9asjbkahcp53qnplfg8ha83mpif8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ9gJ3yQWJqunaBI0RaxOb2Uqa8tHSEfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512319205381-5m7e9asjbkahcp53qnplfg8ha83mpif8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

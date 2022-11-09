@@ -1,11 +1,27 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final email = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    email.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +82,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                         color: Colors.indigo[200],
                         borderRadius: BorderRadius.circular(20)),
                     child: TextField(
+                      controller: email,
                       decoration: InputDecoration(
                           icon: Icon(
                             Icons.person_add_alt,
@@ -77,10 +94,17 @@ class ForgetPasswordScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return LoginScreen();
-                        }));
+                        FirebaseAuth.instance
+                            .sendPasswordResetEmail(email: email.text)
+                            .then((value) => {
+                                  if (email.text != '')
+                                    {
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return LoginScreen();
+                                      }))
+                                    }
+                                });
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(

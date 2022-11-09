@@ -1,12 +1,30 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_task_hng/forget_password_screen.dart';
 import 'package:navigation_task_hng/home_screen.dart';
 import 'package:navigation_task_hng/registration_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final email = TextEditingController();
+  final password = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +71,7 @@ class LoginScreen extends StatelessWidget {
                         color: Colors.indigo[200],
                         borderRadius: BorderRadius.circular(20)),
                     child: TextField(
+                      controller: email,
                       decoration: InputDecoration(
                           icon: Icon(
                             Icons.person_add_alt,
@@ -70,6 +89,7 @@ class LoginScreen extends StatelessWidget {
                         color: Colors.indigo[200],
                         borderRadius: BorderRadius.circular(20)),
                     child: TextField(
+                      controller: password,
                       obscureText: true,
                       decoration: InputDecoration(
                         icon: Icon(
@@ -85,10 +105,15 @@ class LoginScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return HomeScreen();
-                        }));
+                        FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: email.text, password: password.text)
+                            .then((value) => {
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return HomeScreen();
+                                  }))
+                                });
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(

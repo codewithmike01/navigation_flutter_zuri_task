@@ -1,10 +1,27 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_task_hng/home_screen.dart';
 import 'package:navigation_task_hng/login_screen.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
+
+  @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  final email = TextEditingController();
+  final password = TextEditingController();
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +76,7 @@ class RegistrationScreen extends StatelessWidget {
                         color: Colors.indigo[200],
                         borderRadius: BorderRadius.circular(20)),
                     child: TextField(
+                      controller: email,
                       decoration: InputDecoration(
                           icon: Icon(
                             Icons.person_add_alt,
@@ -76,6 +94,7 @@ class RegistrationScreen extends StatelessWidget {
                         color: Colors.indigo[200],
                         borderRadius: BorderRadius.circular(20)),
                     child: TextField(
+                      controller: password,
                       obscureText: true,
                       decoration: InputDecoration(
                         icon: Icon(
@@ -89,33 +108,39 @@ class RegistrationScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                        color: Colors.indigo[200],
-                        borderRadius: BorderRadius.circular(20)),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.lock_clock_outlined,
-                          color: Colors.indigo,
-                        ),
-                        suffixIcon:
-                            Icon(Icons.visibility, color: Colors.indigo),
-                        border: InputBorder.none,
-                        hintText: "Confirm password",
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(vertical: 10),
+                  //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  //   width: size.width * 0.8,
+                  //   decoration: BoxDecoration(
+                  //       color: Colors.indigo[200],
+                  //       borderRadius: BorderRadius.circular(20)),
+                  //   child: TextField(
+                  //     obscureText: true,
+                  //     decoration: InputDecoration(
+                  //       icon: Icon(
+                  //         Icons.lock_clock_outlined,
+                  //         color: Colors.indigo,
+                  //       ),
+                  //       suffixIcon:
+                  //           Icon(Icons.visibility, color: Colors.indigo),
+                  //       border: InputBorder.none,
+                  //       hintText: "Confirm password",
+                  //     ),
+                  //   ),
+                  // ),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return HomeScreen();
-                        }));
+                        FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: email.text, password: password.text)
+                            .then((value) => {
+                                  debugPrint('Account created succesfully'),
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return HomeScreen();
+                                  }))
+                                });
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
